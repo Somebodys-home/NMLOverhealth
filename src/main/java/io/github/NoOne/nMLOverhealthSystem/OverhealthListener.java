@@ -34,7 +34,7 @@ public class OverhealthListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
-            double prevOverhealth = profileManager.getPlayerProfile(player.getUniqueId()).getStats().getCurrentOverhealth();
+            double prevOverhealth = profileManager.getPlayerProfile(player.getUniqueId()).getStats().getOverhealth();
 
             new BukkitRunnable() {
                 @Override
@@ -58,7 +58,7 @@ public class OverhealthListener implements Listener {
             player.getAttribute(Attribute.MAX_ABSORPTION).setBaseValue(stats.getMaxOverhealth());
 
             // Update the current visible overhealth
-            player.setAbsorptionAmount(stats.getCurrentOverhealth());
+            player.setAbsorptionAmount(stats.getOverhealth());
         }
     }
 

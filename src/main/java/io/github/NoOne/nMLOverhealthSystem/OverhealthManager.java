@@ -54,7 +54,7 @@ public class OverhealthManager {
             public void run() {
                 Stats stats = profileManager.getPlayerProfile(uuid).getStats();
                 double maxOverhealth = stats.getMaxOverhealth();
-                double currentOverhealth = stats.getCurrentOverhealth();
+                double currentOverhealth = stats.getOverhealth();
                 double newOverhealth;
 
                 if (currentOverhealth >= maxOverhealth) {

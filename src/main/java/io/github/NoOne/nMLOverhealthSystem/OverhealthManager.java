@@ -54,16 +54,16 @@ public class OverhealthManager {
             public void run() {
                 Stats stats = profileManager.getPlayerProfile(uuid).getStats();
                 double maxOverhealth = stats.getMaxOverhealth();
-                double currentOverhealth = stats.getOverhealth();
+                double overhealth = stats.getOverhealth();
                 double newOverhealth;
 
-                if (currentOverhealth >= maxOverhealth) {
+                if (overhealth >= maxOverhealth) {
                     cancelRegenTask(uuid);
                     return;
                 }
                                                         // seconds to regen to max overhealth
-                newOverhealth = Math.min(currentOverhealth + (maxOverhealth / 15), maxOverhealth);
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "currentoverhealth", newOverhealth - currentOverhealth));
+                newOverhealth = Math.min(overhealth + (maxOverhealth / 15), maxOverhealth);
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "overhealth", newOverhealth - overhealth));
 
                 if (newOverhealth >= maxOverhealth) {
                     cancelRegenTask(uuid);

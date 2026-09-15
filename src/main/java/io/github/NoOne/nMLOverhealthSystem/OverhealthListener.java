@@ -41,7 +41,7 @@ public class OverhealthListener implements Listener {
                 public void run() {
                     double newOverhealth = player.getAbsorptionAmount();
 
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "currentoverhealth", newOverhealth - prevOverhealth));
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "overhealth", newOverhealth - prevOverhealth));
                     overhealthManager.add2OverhealthRegenMap(player);
                 }
             }.runTaskLater(nmlOverhealthSystem, 1L);
@@ -50,15 +50,18 @@ public class OverhealthListener implements Listener {
 
     @EventHandler
     public void updateOverhealthVisually(StatChangeEvent event) {
-        if (event.getStat().equals("maxoverhealth") || event.getStat().equals("currentoverhealth")) {
+        if (event.getStat().equals("maxoverhealth") || event.getStat().equals("overhealth")) {
             Player player = event.getPlayer();
             Stats stats = profileManager.getPlayerProfile(player.getUniqueId()).getStats();
+            double overhealth = (int) stats.getOverhealth();
 
             // Update the max absorption cap so it can display above 4 hearts
             player.getAttribute(Attribute.MAX_ABSORPTION).setBaseValue(stats.getMaxOverhealth());
 
             // Update the current visible overhealth
-            player.setAbsorptionAmount(stats.getOverhealth());
+            if (overhealth >= 0 && Double.isFinite(overhealth)) {
+                player.setAbsorptionAmount(stats.getOverhealth());
+            }
         }
     }
 

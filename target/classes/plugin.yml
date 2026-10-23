@@ -1,6 +1,8 @@
 name: NMLOverhealthSystem
 version: '1.0'
-main: io.github.NoOne.nMLOverhealthSystem.NMLOverhealth
-api-version: '21.6'
+
+main: io.github.NoOne.nMLOverhealth.NMLOverhealth
+api-version: '26.3'
+load: POSTWORLD
 depend:
   - NMLPlayerStats

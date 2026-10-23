@@ -1,12 +1,10 @@
-package io.github.NoOne.nMLOverhealthSystem;
+package io.github.NoOne.nMLOverhealth;
 
 import io.github.NoOne.nMLPlayerStats.NMLPlayerStats;
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class NMLOverhealthSystem extends JavaPlugin {
+public final class NMLOverhealth extends JavaPlugin {
     private ProfileManager profileManager;
     private OverhealthManager overhealthManager;
 

@@ -1,6 +1,5 @@
-package io.github.NoOne.nMLOverhealthSystem;
+package io.github.NoOne.nMLOverhealth;
 
-import io.github.NoOne.nMLPlayerStats.NMLPlayerStats;
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.ResetStatsEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
@@ -13,17 +12,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class OverhealthListener implements Listener {
-    private NMLOverhealthSystem nmlOverhealthSystem;
-    private final ProfileManager profileManager;
-    private final OverhealthManager overhealthManager;
+    private NMLOverhealth nmlOverhealth;
+    private ProfileManager profileManager;
+    private OverhealthManager overhealthManager;
 
-    public OverhealthListener(NMLOverhealthSystem nmlOverhealthSystem) {
-        this.nmlOverhealthSystem = nmlOverhealthSystem;
-        this.profileManager = nmlOverhealthSystem.getProfileManager();
-        this.overhealthManager = nmlOverhealthSystem.getOverhealthManager();
+    public OverhealthListener(NMLOverhealth nmlOverhealth) {
+        this.nmlOverhealth = nmlOverhealth;
+        this.profileManager = nmlOverhealth.getProfileManager();
+        this.overhealthManager = nmlOverhealth.getOverhealthManager();
     }
 
     @EventHandler
@@ -44,7 +42,7 @@ public class OverhealthListener implements Listener {
                     Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "overhealth", newOverhealth - prevOverhealth));
                     overhealthManager.add2OverhealthRegenMap(player);
                 }
-            }.runTaskLater(nmlOverhealthSystem, 1L);
+            }.runTaskLater(nmlOverhealth, 1L);
         }
     }
 

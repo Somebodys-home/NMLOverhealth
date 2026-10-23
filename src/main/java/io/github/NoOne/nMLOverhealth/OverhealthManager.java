@@ -1,4 +1,4 @@
-package io.github.NoOne.nMLOverhealthSystem;
+package io.github.NoOne.nMLOverhealth;
 
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
@@ -6,19 +6,20 @@ import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class OverhealthManager {
-    private final NMLOverhealthSystem nmlOverhealthSystem;
-    private final ProfileManager profileManager;
-    private final Map<UUID, Long> overhealthRegenMap = new HashMap<>();
-    private final Map<UUID, Integer> activeRegenTasks = new HashMap<>();
+    private NMLOverhealth nmlOverhealth;
+    private ProfileManager profileManager;
+    private Map<UUID, Long> overhealthRegenMap = new HashMap<>();
+    private Map<UUID, Integer> activeRegenTasks = new HashMap<>();
 
-    public OverhealthManager(NMLOverhealthSystem nmlOverhealthSystem) {
-        this.nmlOverhealthSystem = nmlOverhealthSystem;
-        profileManager = nmlOverhealthSystem.getProfileManager();
+    public OverhealthManager(NMLOverhealth nmlOverhealth) {
+        this.nmlOverhealth = nmlOverhealth;
+        profileManager = nmlOverhealth.getProfileManager();
     }
 
     public void add2OverhealthRegenMap(Player player) {
@@ -43,7 +44,7 @@ public class OverhealthManager {
                     }
                 }
             }
-        }.runTaskTimer(nmlOverhealthSystem, 0L, 20L);
+        }.runTaskTimer(nmlOverhealth, 0L, 20L);
     }
 
     public void overhealthRegen(Player player) {
@@ -69,7 +70,7 @@ public class OverhealthManager {
                     cancelRegenTask(uuid);
                 }
             }
-        }.runTaskTimer(nmlOverhealthSystem, 0L, 20L).getTaskId();
+        }.runTaskTimer(nmlOverhealth, 0L, 20L).getTaskId();
 
         activeRegenTasks.put(uuid, taskId);
     }

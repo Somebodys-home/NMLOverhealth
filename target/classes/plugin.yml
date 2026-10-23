@@ -1,6 +1,6 @@
 name: NMLOverhealthSystem
 version: '1.0'
-main: io.github.NoOne.nMLOverhealthSystem.NMLOverhealthSystem
+main: io.github.NoOne.nMLOverhealthSystem.NMLOverhealth
 api-version: '21.6'
 depend:
   - NMLPlayerStats

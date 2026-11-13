@@ -1,6 +1,7 @@
 package io.github.NoOne.nMLOverhealth;
 
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.ResetStatsEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
@@ -32,14 +33,14 @@ public class OverhealthListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
-            double prevOverhealth = profileManager.getPlayerProfile(player.getUniqueId()).getStats().getOverhealth();
+            double prevOverhealth = profileManager.getStats(player.getUniqueId()).getStatValue(PlayerStat.OVERHEALTH);
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     double newOverhealth = player.getAbsorptionAmount();
 
-                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "overhealth", newOverhealth - prevOverhealth));
+                    Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.OVERHEALTH, newOverhealth - prevOverhealth));
                     overhealthManager.add2OverhealthRegenMap(player);
                 }
             }.runTaskLater(nmlOverhealth, 1L);
@@ -48,17 +49,17 @@ public class OverhealthListener implements Listener {
 
     @EventHandler
     public void updateOverhealthVisually(StatChangeEvent event) {
-        if (event.getStat().equals("maxoverhealth") || event.getStat().equals("overhealth")) {
+        if (event.getStat() == PlayerStat.MAX_OVERHEALTH || event.getStat() == PlayerStat.OVERHEALTH) {
             Player player = event.getPlayer();
-            Stats stats = profileManager.getPlayerProfile(player.getUniqueId()).getStats();
-            double overhealth = (int) stats.getOverhealth();
+            Stats stats = profileManager.getStats(player.getUniqueId());
+            double overhealth = (int) stats.getStatValue(PlayerStat.OVERHEALTH);
 
             // Update the max absorption cap so it can display above 4 hearts
-            player.getAttribute(Attribute.MAX_ABSORPTION).setBaseValue(stats.getMaxOverhealth());
+            player.getAttribute(Attribute.MAX_ABSORPTION).setBaseValue(stats.getStatValue(PlayerStat.MAX_OVERHEALTH));
 
             // Update the current visible overhealth
             if (overhealth >= 0 && Double.isFinite(overhealth)) {
-                player.setAbsorptionAmount(stats.getOverhealth());
+                player.setAbsorptionAmount(overhealth);
             }
         }
     }

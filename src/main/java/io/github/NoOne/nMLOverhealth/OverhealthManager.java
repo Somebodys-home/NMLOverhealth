@@ -1,6 +1,7 @@
 package io.github.NoOne.nMLOverhealth;
 
 import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
 import org.bukkit.Bukkit;
@@ -40,6 +41,7 @@ public class OverhealthManager {
                         if (!activeRegenTasks.containsKey(uuid)) {
                             overhealthRegen(player);
                         }
+
                         overhealthRegenMap.put(uuid, currentTime);
                     }
                 }
@@ -53,9 +55,9 @@ public class OverhealthManager {
         int taskId = new BukkitRunnable() {
             @Override
             public void run() {
-                Stats stats = profileManager.getPlayerProfile(uuid).getStats();
-                double maxOverhealth = stats.getMaxOverhealth();
-                double overhealth = stats.getOverhealth();
+                Stats stats = profileManager.getStats(uuid);
+                double maxOverhealth = stats.getStatValue(PlayerStat.MAX_OVERHEALTH);
+                double overhealth = stats.getStatValue(PlayerStat.OVERHEALTH);
                 double newOverhealth;
 
                 if (overhealth >= maxOverhealth) {
@@ -64,7 +66,7 @@ public class OverhealthManager {
                 }
                                                         // seconds to regen to max overhealth
                 newOverhealth = Math.min(overhealth + (maxOverhealth / 15), maxOverhealth);
-                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, "overhealth", newOverhealth - overhealth));
+                Bukkit.getPluginManager().callEvent(new StatChangeEvent(player, PlayerStat.OVERHEALTH, newOverhealth - overhealth));
 
                 if (newOverhealth >= maxOverhealth) {
                     cancelRegenTask(uuid);

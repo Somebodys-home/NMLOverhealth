@@ -1,6 +1,6 @@
 package io.github.NoOne.nMLOverhealth;
 
-import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.StatConfigManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.Stats;
@@ -14,13 +14,13 @@ import java.util.UUID;
 
 public class OverhealthManager {
     private NMLOverhealth nmlOverhealth;
-    private ProfileManager profileManager;
+    private StatConfigManager statConfigManager;
     private Map<UUID, Long> overhealthRegenMap = new HashMap<>();
     private Map<UUID, Integer> activeRegenTasks = new HashMap<>();
 
     public OverhealthManager(NMLOverhealth nmlOverhealth) {
         this.nmlOverhealth = nmlOverhealth;
-        profileManager = nmlOverhealth.getProfileManager();
+        statConfigManager = nmlOverhealth.getStatConfigManager();
     }
 
     public void add2OverhealthRegenMap(Player player) {
@@ -55,7 +55,7 @@ public class OverhealthManager {
         int taskId = new BukkitRunnable() {
             @Override
             public void run() {
-                Stats stats = profileManager.getStats(uuid);
+                Stats stats = statConfigManager.getStats(uuid);
                 double maxOverhealth = stats.getStatValue(PlayerStat.MAX_OVERHEALTH);
                 double overhealth = stats.getStatValue(PlayerStat.OVERHEALTH);
                 double newOverhealth;

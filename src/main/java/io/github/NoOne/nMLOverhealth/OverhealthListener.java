@@ -1,6 +1,6 @@
 package io.github.NoOne.nMLOverhealth;
 
-import io.github.NoOne.nMLPlayerStats.profileSystem.ProfileManager;
+import io.github.NoOne.nMLPlayerStats.StatConfigManager;
 import io.github.NoOne.nMLPlayerStats.statSystem.PlayerStat;
 import io.github.NoOne.nMLPlayerStats.statSystem.ResetStatsEvent;
 import io.github.NoOne.nMLPlayerStats.statSystem.StatChangeEvent;
@@ -16,12 +16,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class OverhealthListener implements Listener {
     private NMLOverhealth nmlOverhealth;
-    private ProfileManager profileManager;
+    private StatConfigManager statConfigManager;
     private OverhealthManager overhealthManager;
 
     public OverhealthListener(NMLOverhealth nmlOverhealth) {
         this.nmlOverhealth = nmlOverhealth;
-        this.profileManager = nmlOverhealth.getProfileManager();
+        this.statConfigManager = nmlOverhealth.getStatConfigManager();
         this.overhealthManager = nmlOverhealth.getOverhealthManager();
     }
 
@@ -33,7 +33,7 @@ public class OverhealthListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
-            double prevOverhealth = profileManager.getStats(player.getUniqueId()).getStatValue(PlayerStat.OVERHEALTH);
+            double prevOverhealth = statConfigManager.getStats(player.getUniqueId()).getStatValue(PlayerStat.OVERHEALTH);
 
             new BukkitRunnable() {
                 @Override
@@ -51,7 +51,7 @@ public class OverhealthListener implements Listener {
     public void updateOverhealthVisually(StatChangeEvent event) {
         if (event.getStat() == PlayerStat.MAX_OVERHEALTH || event.getStat() == PlayerStat.OVERHEALTH) {
             Player player = event.getPlayer();
-            Stats stats = profileManager.getStats(player.getUniqueId());
+            Stats stats = statConfigManager.getStats(player.getUniqueId());
             double overhealth = (int) stats.getStatValue(PlayerStat.OVERHEALTH);
 
             // Update the max absorption cap so it can display above 4 hearts
